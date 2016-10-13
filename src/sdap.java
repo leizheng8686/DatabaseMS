@@ -5,7 +5,7 @@ public class sdap {
 	{
 		String usr ="postgres";
 		String pwd ="8686";
-		String url ="jdbc:postgresql://localhost:5432/Test";
+		String url ="jdbc:postgresql://localhost:5432/postgres";
 
 		try
 		{

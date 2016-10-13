@@ -7,7 +7,7 @@
 	(
 		cust	varchar(20),
 		prod	varchar(20),
-		day	integer,
+		day		integer,
 		month	integer,
 		year	integer,
 		state	char(2),
