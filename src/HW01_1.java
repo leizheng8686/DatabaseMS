@@ -7,31 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class HW01 extends commFunc {
+public class HW01_1 extends commFunc {
 
-	public static void main(String[] args)
+	public void part1(ResultSet rs)
 	{
-		String usr ="postgres";
-		String pwd ="8686";
-		String url ="jdbc:postgresql://localhost:5432/postgres";
-
-		try
-		{
-			Class.forName("org.postgresql.Driver");
-		}
-
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		try
-		{
-			Connection conn = DriverManager.getConnection(url, usr, pwd);
-
-			Statement stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM Sales");
-			
 			//create a hashmap to store (PRODUCT(as key),MAX_Q,CUSTOMER,DATE,ST,MIN_Q,CUSTOMER,DATE,ST,AVG_Q,SUM,COUNT) info
 			HashMap<String,ArrayList<String>> map = new HashMap<String,ArrayList<String>>();
 
@@ -106,14 +85,5 @@ public class HW01 extends commFunc {
 				i++;
 			}
 			System.out.println("(" + i + " records)");
-		}
-
-		catch(SQLException e)
-		{
-			System.out.println("Connection URL or username or password errors!");
-			e.printStackTrace();
-		}
-
 	}
-
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class HW01_2 {
+public class HW01_2 extends commFunc{
 
 	public static void main(String[] args)
 	{
@@ -18,19 +18,16 @@ public class HW01_2 {
 		try
 		{
 			Class.forName("org.postgresql.Driver");
-			System.out.println("Success loading Driver!");
 		}
 
 		catch(Exception e)
 		{
-			System.out.println("Fail loading Driver!");
 			e.printStackTrace();
 		}
 
 		try
 		{
 			Connection conn = DriverManager.getConnection(url, usr, pwd);
-			System.out.println("Success connecting server!");
 
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM Sales");
@@ -44,8 +41,11 @@ public class HW01_2 {
 				//if hashmap already contain the combination of customer and product, then update the info 
 				if(map.containsKey(rs.getString("cust") + rs.getString("prod"))){
 					int quant = Integer.parseInt(rs.getString("quant"));
-					if(rs.getString("state").equals("CT")){
-						if(map.get(rs.getString("cust") + rs.getString("prod")).get(2) == ""  
+					// update CT info if the year betweens 2000 and 2005
+					if(rs.getString("state").equals("CT")
+						&& Integer.parseInt(rs.getString("year")) >= 2000
+						&& Integer.parseInt(rs.getString("year")) <= 2005){
+						if(map.get(rs.getString("cust") + rs.getString("prod")).get(2) == "NULL"  
 							|| quant > Integer.parseInt(map.get(rs.getString("cust") + rs.getString("prod")).get(2))){
 							map.get(rs.getString("cust") + rs.getString("prod")).set(2, quant + "");
 							map.get(rs.getString("cust") + rs.getString("prod")).set(3, toTwoDigits(rs.getString("month")) +"/"
@@ -53,7 +53,7 @@ public class HW01_2 {
 																						+ toTwoDigits(rs.getString("year")));
 						}
 					}else if(rs.getString("state").equals("NY")){
-						if(map.get(rs.getString("cust") + rs.getString("prod")).get(4) == ""  
+						if(map.get(rs.getString("cust") + rs.getString("prod")).get(4) == "NULL"  
 								|| quant < Integer.parseInt(map.get(rs.getString("cust") + rs.getString("prod")).get(4))){
 								map.get(rs.getString("cust") + rs.getString("prod")).set(4, quant + "");
 								map.get(rs.getString("cust") + rs.getString("prod")).set(5, toTwoDigits(rs.getString("month")) +"/"
@@ -61,7 +61,7 @@ public class HW01_2 {
 																							+ toTwoDigits(rs.getString("year")));
 						}
 					}else if(rs.getString("state").equals("NJ")){
-						if(map.get(rs.getString("cust") + rs.getString("prod")).get(6) == ""  
+						if(map.get(rs.getString("cust") + rs.getString("prod")).get(6) == "NULL"  
 								|| quant < Integer.parseInt(map.get(rs.getString("cust") + rs.getString("prod")).get(6))){
 								map.get(rs.getString("cust") + rs.getString("prod")).set(6, quant + "");
 								map.get(rs.getString("cust") + rs.getString("prod")).set(7, toTwoDigits(rs.getString("month")) +"/"
@@ -75,29 +75,32 @@ public class HW01_2 {
 					ArrayList<String> temp = new ArrayList<String>();
 					temp.add(rs.getString("cust")); //0  CUSTOMER
 					temp.add(rs.getString("prod")); //1  PRODUCT
-					if(rs.getString("state").equals("CT")){
+					//initialize CT info if the year betweens 2000 and 2005
+					if(rs.getString("state").equals("CT") 
+							&& Integer.parseInt(rs.getString("year")) >= 2000
+							&& Integer.parseInt(rs.getString("year")) <= 2005){
 						temp.add(rs.getString("quant")); //2  CT_MAX
 						temp.add(toTwoDigits(rs.getString("month")) +"/"
 								+ toTwoDigits(rs.getString("day")) +"/"
 								+ toTwoDigits(rs.getString("year"))); //3  DATE of CT_MAX
-						temp.add("");  //4 NY_MIN
-						temp.add("");  //5 DATE of NY_MIN
-						temp.add("");  //6 NJ_MIN
-						temp.add("");  //7 DATE of NJ_MIN
+						temp.add("NULL");  //4 NY_MIN
+						temp.add("NULL");  //5 DATE of NY_MIN
+						temp.add("NULL");  //6 NJ_MIN
+						temp.add("NULL");  //7 DATE of NJ_MIN
 					}else if(rs.getString("state").equals("NY")){
-						temp.add("");  //2 CT_MAX
-						temp.add("");  //3 DATE of CT_MAX
+						temp.add("NULL");  //2 CT_MAX
+						temp.add("NULL");  //3 DATE of CT_MAX
 						temp.add(rs.getString("quant")); //4  NY_MIN
 						temp.add(toTwoDigits(rs.getString("month")) +"/"
 								+ toTwoDigits(rs.getString("day")) +"/"
 								+ toTwoDigits(rs.getString("year"))); //5  DATE of NY_MIN
-						temp.add("");  //6 NJ_MIN
-						temp.add("");  //7 DATE of NJ_MIN
+						temp.add("NULL");  //6 NJ_MIN
+						temp.add("NULL");  //7 DATE of NJ_MIN
 					}else if(rs.getString("state").equals("NJ")){
-						temp.add("");  //2 CT_MAX
-						temp.add("");  //3 DATE of CT_MAX
-						temp.add("");  //4 NY_MIN
-						temp.add("");  //5 DATE of NY_MIN
+						temp.add("NULL");  //2 CT_MAX
+						temp.add("NULL");  //3 DATE of CT_MAX
+						temp.add("NULL");  //4 NY_MIN
+						temp.add("NULL");  //5 DATE of NY_MIN
 						temp.add(rs.getString("quant")); //6  NJ_MIN
 						temp.add(toTwoDigits(rs.getString("month")) +"/"
 								+ toTwoDigits(rs.getString("day")) +"/"
@@ -110,20 +113,26 @@ public class HW01_2 {
 			}
 			
 			//print the result
-//			System.out.println("CUSTOMER" + "\t" + "PRODUCT" + "\t"
-//							+ "CT_MAX" + "\t" + "DATE" + "\t" + "NY_MIN" + "\t" 
-//							+ "DATE" + "\t" + "NJ_MIN" + "\t" + "DATE");
+			System.out.println("CUSTOMER  PRODUCT  CT_MAX  DATE        NY_MIN  DATE        NJ_MIN  DATE      ");
+			System.out.println("========  =======  ======  ==========  ======  ==========  ======  ==========");
 			Iterator iter = map.entrySet().iterator();
+			int i = 0;  //count rows
 			while (iter.hasNext()) {
 				HashMap.Entry entry = (HashMap.Entry) iter.next();
 				String key = (String) entry.getKey();
 				ArrayList<String> val = (ArrayList<String>) entry.getValue();
-//				System.out.print(key);
-				for(String str : val){
-					System.out.print(str + "\t");
-				}
+				System.out.print(strFormat(val.get(0), "LEFT", 8));  //customer
+				System.out.print(strFormat(val.get(1), "LEFT", 7));  //product
+				System.out.print(strFormat(val.get(2), "RIGHT", 6));  //CT_MAX
+				System.out.print(strFormat(val.get(3), "RIGHT", 10));  //DATE
+				System.out.print(strFormat(val.get(4), "RIGHT", 6));  //NY_MIN
+				System.out.print(strFormat(val.get(5), "RIGHT", 10));  //DATE
+				System.out.print(strFormat(val.get(6), "RIGHT", 6));  //NJ_MIN
+				System.out.print(strFormat(val.get(7), "RIGHT", 10));  //DATE
 				System.out.println();
+				i++;
 			}
+			System.out.println("(" + i + " records)");
 		}
 
 		catch(SQLException e)
@@ -132,13 +141,6 @@ public class HW01_2 {
 			e.printStackTrace();
 		}
 
-	}
-	
-	public static String toTwoDigits(String str){
-		if(str.length() == 1){
-			return "0" + str;
-		}else
-			return str;
 	}
 
 }
