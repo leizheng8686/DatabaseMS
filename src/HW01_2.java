@@ -9,11 +9,11 @@ import java.util.Iterator;
 
 public class HW01_2 extends commFunc{
 
-	public static void main(String[] args)
+	/**
+	 * get the result. If isPrint is true, then print in the Console. Otherwise, print nothing 
+	 */
+	public void getResult(boolean isPrint)
 	{
-		String usr ="postgres";
-		String pwd ="8686";
-		String url ="jdbc:postgresql://localhost:5432/postgres";
 
 		try
 		{
@@ -132,7 +132,7 @@ public class HW01_2 extends commFunc{
 				System.out.println();
 				i++;
 			}
-			System.out.println("(" + i + " records)");
+			System.out.println("(" + i + " records)" + "\n");
 		}
 
 		catch(SQLException e)

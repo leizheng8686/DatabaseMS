@@ -1,6 +1,11 @@
 
 public class commFunc {
 	
+	//set postgresql username, password, url
+	protected String usr ="postgres";
+	protected String pwd ="8686";
+	protected String url ="jdbc:postgresql://localhost:5432/postgres";
+	
 	//transfer 1 digit to 2 digits
 	public static String toTwoDigits(String str){
 		if(str.length() == 1){
