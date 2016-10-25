@@ -11,7 +11,7 @@
  * 4. According to your configuration, set PostgreSQL username, password, url in commFunc.java. 
  * 5. Then compile and run the main.java. You will get 2 tables in the Console.
  * 5.1 You can only print one table once by change the boolean parameter in getResult method.
- * 		 true: print result, false: nothing print.
+ * 	   true: print result, false: nothing print.
  * 
  */
 
