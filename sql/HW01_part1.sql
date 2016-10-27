@@ -1,15 +1,3 @@
-﻿/*
-create table sales
-	(
-		cust	varchar(20),
-		prod	varchar(20),
-		day	integer,
-		month	integer,
-		year	integer,
-		state	char(2),
-		quant	integer
-	)
-*/
 
 create view prod_max as
 (select prod, max(quant) as max_q from sales group by prod);
@@ -29,7 +17,6 @@ from prod_min, sales where prod_min.prod = sales.prod and prod_min.min_q = sales
 
 create view prod_avg as
 (select prod, round(avg(quant), 0) as avg_q from sales group by prod);
-
 
 create view part1 as
 (select prod_max_info.prod, prod_max_info.max_q, prod_max_info.cust_max, 
