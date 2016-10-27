@@ -8,8 +8,6 @@ create view ct as
 from ct_temp, sales where ct_temp.prod = sales.prod and ct_temp.cust = sales.cust 
 and ct_temp.ct_max = sales.quant and sales.year between 2000 and 2005);
 
-select * from ct;
-
 create view ny_temp as
 (select cust, prod, min(quant) as ny_min from sales where state = 'NY' group by cust, prod ); 
 
