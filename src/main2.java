@@ -4,7 +4,7 @@
  * 
  * How to execute the program:
  * 1. Install PostgreSQL, and run load_sales_table.sql to initialize the table.
- * 2. Create a java project and include files(Main.java, HW01.java, HW01_2.java, commFunc.java) in default package.
+ * 2. Create a java project and include files(Main2.java, HW02_1.java, HW02_2.java, HW02_3.java, basicFunc.java) in default package.
  * 3. Add postgresql driver to Libraries. The driver used for this program is postgresql-9.4.1211.jre6.jar.
  * 3.1 For Eclipse, you can download the whole project from my github and run it directly.
  *     URL:https://github.com/leizheng8686/DatabaseMS)
